@@ -1,19 +1,19 @@
-const paquetes = require('../data/incidencias.js')
+const { json } = require("express");
+const paquetes = require("../data/incidencias.js");
 
-const crearIncidencia = (req, rest) => {
-    
-}
+const crearIncidencia = (req, res) => {};
 
-const eliminarIncidencia = (req, rest) => {
-    
-}
+const eliminarIncidencia = (req, res) => {};
 
-const obtenerIncidencia = (req, rest) => {
+const obtenerIncidencia = (req, res) => {};
 
-}
+const clasificarIncidencia = (req, res) => {
+
+};
 
 module.exports = {
-    crearIncidencia, 
-    eliminarIncidencia,
-    obtenerIncidencia
+  crearIncidencia,
+  eliminarIncidencia,
+  obtenerIncidencia,
+  clasificarIncidencia,
 };
