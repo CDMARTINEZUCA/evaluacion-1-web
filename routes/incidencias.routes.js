@@ -9,10 +9,10 @@ const {
     clasificarIncidencia
 } = require('../controllers/incidencias.controller.js');
 
-router.post('/', crearIncidencia);
-router.get('/', listarIncidencias);
-router.get('/:id', obtenerIncidencia);
-router.delete('/:id', eliminarIncidencia);
+router.post('/crear', crearIncidencia);
+router.get('/listar', listarIncidencias);
+router.get('/:id/obtenerPorId', obtenerIncidencia);
+router.delete('/:id/eliminar', eliminarIncidencia);
 router.get('/:id/clasificar', clasificarIncidencia);
 
 module.exports = router;
