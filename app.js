@@ -4,8 +4,8 @@ const app = express();
 const port = 3067;
 
 app.use(express.json());
-app.use('api/incidencias', incidenciasRoutes);
+app.use('/api/incidencias', incidenciasRoutes);
 
 app.listen(port, () => {
-    console.log(`Servidor escuchando en http://localhost: ${port}`)
+    console.log(`Servidor escuchando en http://localhost:in${port}`)
 });
