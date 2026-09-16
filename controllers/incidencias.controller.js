@@ -23,9 +23,11 @@ const crearIncidencia = (req, rest) => {
         if (empleado.trim().length === 0 || area.trim().length === 0 || descripcion.trim().length === 0 || prioridad.trim().length === 0) {
             return rest.status(400).json({ mensaje: 'Los campos no pueden estar vacíos' });
         }
+      
+        let nuevoId = Number(incidencias.at(-1).id + 1);
 
         const nuevaIncidencia = {
-            id: incidencias.length + 1,
+            id: nuevoId,
             empleado,
             area,
             descripcion,
