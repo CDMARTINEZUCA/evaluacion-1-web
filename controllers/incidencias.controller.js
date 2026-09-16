@@ -53,7 +53,21 @@ const listarIncidencias = (req, rest) => {
     rest.status(200).json(incidencias);
 }
 
-const eliminarIncidencia = (req, res) => {};
+const eliminarIncidencia = (req, res) => {
+  //busca el elemento en el array y duelve el indice del elemento encontrado, si no lo encuentra devuelve -1
+  const indice = incidencias.findIndex((i) => i.id === Number(req.params.id));
+
+  if (indice === -1) {
+    return res.status(404).json({ message: "No se encontro la incidencia" });
+  }
+  // devuelve una copia superficial de una parte de un arreglo o una cadena de texto en un nuevo objeto, sin modificar el original
+  const [incidenciaEliminada] = incidencias.splice(indice, 1);
+
+  return res.json({
+    message: "Incidencia eliminada correctamente",
+    incidencia: incidenciaEliminada,
+  });
+};
 
 const obtenerIncidencia = (req, res) => {};
 
