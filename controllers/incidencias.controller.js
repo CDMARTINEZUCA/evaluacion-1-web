@@ -102,11 +102,28 @@ const clasificarIncidencia = (req, res) => {
   })
 };
 
+const estadisticasIncidencias = (req, res) => {
+  const totalIncidencias = incidencias.length;
+  const incidenciasPendientes = incidencias.filter(i => i.estado === "Pendiente").length;
+  const incidenciasenProceso = incidencias.filter(i => i.estado === "En proceso").length
+  const incidenciasResueltas = incidencias.filter(i => i.estado === "Resuelta").length; 
+  const incidenciasCanceladas = incidencias.filter(i => i.estado === "Cancelada").length;
+
+  return res.json({
+    totalIncidencias: totalIncidencias,
+    pendientes: incidenciasPendientes,
+    enProceso: incidenciasenProceso,
+    resueltas: incidenciasResueltas,
+    canceladas: incidenciasCanceladas
+  })
+};
+
 module.exports = {
   crearIncidencia,
   listarIncidencias,
   eliminarIncidencia,
   obtenerIncidencia,
-  clasificarIncidencia
+  clasificarIncidencia,
+  estadisticasIncidencias
 };
 

@@ -6,7 +6,8 @@ const {
     listarIncidencias,
     obtenerIncidencia,
     eliminarIncidencia,
-    clasificarIncidencia
+    clasificarIncidencia,
+    estadisticasIncidencias
 } = require('../controllers/incidencias.controller.js');
 
 router.post('/crear', crearIncidencia);
@@ -14,5 +15,6 @@ router.get('/listar', listarIncidencias);
 router.get('/:id/obtenerPorId', obtenerIncidencia);
 router.delete('/:id/eliminar', eliminarIncidencia);
 router.get('/:id/clasificar', clasificarIncidencia);
+router.get('/estadisticas', estadisticasIncidencias);
 
 module.exports = router;
