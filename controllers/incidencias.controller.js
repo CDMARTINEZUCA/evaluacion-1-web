@@ -69,7 +69,15 @@ const eliminarIncidencia = (req, res) => {
   });
 };
 
-const obtenerIncidencia = (req, res) => {};
+const obtenerIncidencia = (req, res) => {
+
+const id = parseInt(req.params.id);
+const item = incidencias.find(i => i.id === id);
+if (!item){
+  return res.status(404).json({message : 'Item not found'})
+}
+  res.json(item)
+};
 
 const clasificarIncidencia = (req, res) => {
   const incidencia = incidencias.find(i => i.id === Number(req.params.id));
@@ -102,6 +110,41 @@ const clasificarIncidencia = (req, res) => {
   })
 };
 
+
+const cambiarEstadoIncidencia = (req, res) => {
+
+    const id = Number(req.params.id);
+    const nuevoEstado = req.params.nuevoEstado;
+
+    const incidencia = incidencias.find(i => i.id === id);
+
+    if (!incidencia) {
+        return res.status(404).json({
+            mensaje: "No se encontró la incidencia"
+        });
+    }
+
+    const estadosValidos = [
+        "Pendiente",
+        "En proceso",
+        "Resuelta",
+        "Cancelada"
+    ];
+
+    if (!estadosValidos.includes(nuevoEstado)) {
+        return res.status(400).json({
+            mensaje: "Estado no válido"
+        });
+    }
+
+    incidencia.estado = nuevoEstado;
+
+    return res.json({
+        mensaje: "Estado cambiado correctamente",
+        incidencia
+    });
+};
+
 const estadisticasIncidencias = (req, res) => {
   const totalIncidencias = incidencias.length;
   const incidenciasPendientes = incidencias.filter(i => i.estado === "Pendiente").length;
@@ -124,6 +167,7 @@ module.exports = {
   eliminarIncidencia,
   obtenerIncidencia,
   clasificarIncidencia,
+  cambiarEstadoIncidencia,
   estadisticasIncidencias
 };
 
