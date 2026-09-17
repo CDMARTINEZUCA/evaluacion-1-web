@@ -9,7 +9,6 @@ const crearIncidencia = (req, rest) => {
       rest.status(400).json({ mensaje: 'Todos los campos son obligatorios' });
       return;
     }
-    //prioridades que se pueden usar
     let prioridadValida = [
       "Alta",
       "Media",
@@ -24,7 +23,13 @@ const crearIncidencia = (req, rest) => {
       return rest.status(400).json({ mensaje: 'Los campos no pueden estar vacíos' });
     }
 
-    let nuevoId = Number(incidencias.at(-1).id + 1);
+    let nuevoId;
+
+    if (incidencias.length === 0) {
+      nuevoId = 1;
+    } else {
+      nuevoId = incidencias.at(-1).id + 1;
+    }
 
     const nuevaIncidencia = {
       id: nuevoId,
@@ -47,7 +52,6 @@ const crearIncidencia = (req, rest) => {
 }
 
 const listarIncidencias = (req, rest) => {
-  //validar si existen incidencias para poder listarlas
   if (incidencias.length === 0) {
     rest.status(404).json({ mensaje: 'No hay incidencias registradas' });
     return;
