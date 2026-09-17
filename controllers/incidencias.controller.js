@@ -2,57 +2,57 @@ const { json } = require("express");
 const incidencias = require("../data/incidencias.js");
 
 const crearIncidencia = (req, rest) => {
-    try {
-        const { empleado, area, descripcion, prioridad } = req.body;
-        //Validacion de campos obligatorios
-        if (!empleado || !area || !descripcion || !prioridad) {
-            rest.status(400).json({ mensaje: 'Todos los campos son obligatorios' });
-            return;
-        }
-        //Prioridades validas
-        let prioridadValida = [
-            "Alta",
-            "Media",
-            "Baja"
-        ];
-        //Validar prioridad valida
-        if (!prioridadValida.includes(prioridad)) {
-            return rest.status(400).json({ mensaje: 'La prioridad debe ser Alta, Media o Baja' });
-        }
-        //Validacion de campos vacios
-        if (empleado.trim().length === 0 || area.trim().length === 0 || descripcion.trim().length === 0 || prioridad.trim().length === 0) {
-            return rest.status(400).json({ mensaje: 'Los campos no pueden estar vacíos' });
-        }
-      
-        let nuevoId = Number(incidencias.at(-1).id + 1);
-
-        const nuevaIncidencia = {
-            id: nuevoId,
-            empleado,
-            area,
-            descripcion,
-            prioridad,
-            estado: "Pendiente"
-        };
-        incidencias.push(nuevaIncidencia);
-        rest.status(201).json({
-            mensaje: 'Incidencia registrada correctamente',
-            incidencia: nuevaIncidencia
-        });
-
-    } catch (error) {
-        rest.status(500).json({ mensaje: 'Error al crear la incidencia' });
+  try {
+    const { empleado, area, descripcion, prioridad } = req.body;
+    //Validacion de campos obligatorios
+    if (!empleado || !area || !descripcion || !prioridad) {
+      rest.status(400).json({ mensaje: 'Todos los campos son obligatorios' });
+      return;
     }
+    //Prioridades validas
+    let prioridadValida = [
+      "Alta",
+      "Media",
+      "Baja"
+    ];
+    //Validar prioridad valida
+    if (!prioridadValida.includes(prioridad)) {
+      return rest.status(400).json({ mensaje: 'La prioridad debe ser Alta, Media o Baja' });
+    }
+    //Validacion de campos vacios
+    if (empleado.trim().length === 0 || area.trim().length === 0 || descripcion.trim().length === 0 || prioridad.trim().length === 0) {
+      return rest.status(400).json({ mensaje: 'Los campos no pueden estar vacíos' });
+    }
+
+    let nuevoId = Number(incidencias.at(-1).id + 1);
+
+    const nuevaIncidencia = {
+      id: nuevoId,
+      empleado,
+      area,
+      descripcion,
+      prioridad,
+      estado: "Pendiente"
+    };
+    incidencias.push(nuevaIncidencia);
+    rest.status(201).json({
+      mensaje: 'Incidencia registrada correctamente',
+      incidencia: nuevaIncidencia
+    });
+
+  } catch (error) {
+    rest.status(500).json({ mensaje: 'Error al crear la incidencia' });
+  }
 
 }
 
 const listarIncidencias = (req, rest) => {
-    //Validacion sobre ninguna incidencia registrada
-    if (incidencias.length === 0) {
-        rest.status(404).json({ mensaje: 'No hay incidencias registradas' });
-        return;
-    }
-    rest.status(200).json(incidencias);
+  //Validacion sobre ninguna incidencia registrada
+  if (incidencias.length === 0) {
+    rest.status(404).json({ mensaje: 'No hay incidencias registradas' });
+    return;
+  }
+  rest.status(200).json(incidencias);
 }
 
 const eliminarIncidencia = (req, res) => {
@@ -73,11 +73,11 @@ const eliminarIncidencia = (req, res) => {
 
 const obtenerIncidencia = (req, res) => {
 
-const id = parseInt(req.params.id);
-const item = incidencias.find(i => i.id === id);
-if (!item){
-  return res.status(404).json({message : 'Item not found'})
-}
+  const id = parseInt(req.params.id);
+  const item = incidencias.find(i => i.id === id);
+  if (!item) {
+    return res.status(404).json({ message: 'Item not found' })
+  }
   res.json(item)
 };
 
@@ -85,7 +85,7 @@ const clasificarIncidencia = (req, res) => {
   const incidencia = incidencias.find(i => i.id === Number(req.params.id));
 
   if (!incidencia) {
-    return res.status(404).json({message: 'No se encontro la incidencia'})
+    return res.status(404).json({ message: 'No se encontro la incidencia' })
   }
 
   let clasification;
@@ -102,7 +102,7 @@ const clasificarIncidencia = (req, res) => {
       break;
 
     default:
-        clasification = "Sin clasificar";
+      clasification = "Sin clasificar";
       break;
   }
 
@@ -115,43 +115,43 @@ const clasificarIncidencia = (req, res) => {
 
 const cambiarEstadoIncidencia = (req, res) => {
 
-    const id = Number(req.params.id);
-    const nuevoEstado = req.params.nuevoEstado;
+  const id = Number(req.params.id);
+  const nuevoEstado = req.params.nuevoEstado;
 
-    const incidencia = incidencias.find(i => i.id === id);
+  const incidencia = incidencias.find(i => i.id === id);
 
-    if (!incidencia) {
-        return res.status(404).json({
-            mensaje: "No se encontró la incidencia"
-        });
-    }
-
-    const estadosValidos = [
-        "Pendiente",
-        "En proceso",
-        "Resuelta",
-        "Cancelada"
-    ];
-
-    if (!estadosValidos.includes(nuevoEstado)) {
-        return res.status(400).json({
-            mensaje: "Estado no válido"
-        });
-    }
-
-    incidencia.estado = nuevoEstado;
-
-    return res.json({
-        mensaje: "Estado cambiado correctamente",
-        incidencia
+  if (!incidencia) {
+    return res.status(404).json({
+      mensaje: "No se encontró la incidencia"
     });
+  }
+
+  const estadosValidos = [
+    "Pendiente",
+    "En proceso",
+    "Resuelta",
+    "Cancelada"
+  ];
+
+  if (!estadosValidos.includes(nuevoEstado)) {
+    return res.status(400).json({
+      mensaje: "Estado no válido"
+    });
+  }
+
+  incidencia.estado = nuevoEstado;
+
+  return res.json({
+    mensaje: "Estado cambiado correctamente",
+    incidencia
+  });
 };
 
 const estadisticasIncidencias = (req, res) => {
   const totalIncidencias = incidencias.length;
   const incidenciasPendientes = incidencias.filter(i => i.estado === "Pendiente").length;
   const incidenciasenProceso = incidencias.filter(i => i.estado === "En proceso").length
-  const incidenciasResueltas = incidencias.filter(i => i.estado === "Resuelta").length; 
+  const incidenciasResueltas = incidencias.filter(i => i.estado === "Resuelta").length;
   const incidenciasCanceladas = incidencias.filter(i => i.estado === "Cancelada").length;
 
   return res.json({

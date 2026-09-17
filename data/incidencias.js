@@ -1,8 +1,4 @@
-let incidencias = [
-    {id: 1, empleado: "Prueba", area: "RRHH", descripcion: "No puedo imprimir",
-        prioridad: "Alta", estado: "Pendiente"
-    }
-];
+let incidencias = [];
 
 module.exports = incidencias;
 
