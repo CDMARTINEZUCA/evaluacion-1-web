@@ -7,5 +7,5 @@ app.use(express.json());
 app.use('/api/incidencias', incidenciasRoutes);
 
 app.listen(port, () => {
-    console.log(`Servidor escuchando en http://localhost:in${port}`)
+    console.log(`Servidor escuchando en http://localhost:${port}`)
 });
